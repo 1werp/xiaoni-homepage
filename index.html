@@ -3,51 +3,367 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>小妮の主页</title>
-  <link rel="stylesheet" href="style.css">
+  <title>小妮的主页 - xiaoni</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #09030d;
+      color: #e0d0e8;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      padding-bottom: 60px;
+    }
+
+    /* 背景发光与爱心飘落层 */
+    .bg-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, rgba(120, 30, 100, 0.25) 0%, rgba(10, 3, 15, 0.95) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart-particle {
+      position: fixed;
+      top: -30px;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      animation: floatDown linear forwards;
+      filter: drop-shadow(0 0 6px rgba(230, 80, 160, 0.6));
+    }
+
+    @keyframes floatDown {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(0.8);
+        opacity: 0.9;
+      }
+      50% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(105vh) rotate(360deg) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    /* 手写艺术字 xiaoni */
+    .brand-title {
+      font-family: 'Caveat', cursive, sans-serif;
+      font-size: 4rem;
+      color: #1a0826;
+      text-shadow: 
+        0 0 8px rgba(180, 70, 210, 0.6),
+        0 0 18px rgba(140, 40, 180, 0.4),
+        -1px -1px 0 #3a0d52,
+        1px 1px 0 #3a0d52;
+      margin-bottom: 25px;
+      letter-spacing: 2px;
+    }
+
+    /* 圆形头像带紫色发光边框 */
+    .avatar-wrapper {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      margin-bottom: 30px;
+    }
+
+    .avatar-border {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #a855f7, #ec4899, #7e22ce);
+      box-shadow: 
+        0 0 20px rgba(168, 85, 247, 0.6),
+        0 0 40px rgba(236, 72, 153, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #2a1538;
+      display: block;
+    }
+
+    /* 欢迎标题（双行排版） */
+    .welcome-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: #e9d5ff;
+      text-shadow: 
+        0 0 12px rgba(216, 180, 254, 0.7),
+        0 0 24px rgba(168, 85, 247, 0.5);
+      letter-spacing: 3px;
+      line-height: 1.4;
+      margin-bottom: 35px;
+    }
+
+    .welcome-title span {
+      display: block;
+    }
+
+    /* 标语与ID */
+    .slogan {
+      font-size: 1.15rem;
+      color: #d8b4fe;
+      margin-bottom: 12px;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+    }
+
+    .handle {
+      font-size: 1.05rem;
+      color: #c084fc;
+      margin-bottom: 16px;
+      font-family: monospace, sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    .tags {
+      font-size: 0.95rem;
+      color: #a855f7;
+      letter-spacing: 2px;
+      margin-bottom: 25px;
+      font-weight: 400;
+    }
+
+    /* 向下指示箭头 */
+    .scroll-arrow {
+      color: #a855f7;
+      font-size: 1.8rem;
+      animation: bounce 2s infinite;
+      margin-bottom: 40px;
+      cursor: pointer;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    /* 内容卡片区 */
+    .section-card {
+      width: 100%;
+      background: rgba(22, 12, 34, 0.75);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      text-align: left;
+    }
+
+    .section-card h2 {
+      color: #f0abfc;
+      font-size: 1.25rem;
+      border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .section-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #e9d5ff;
+    }
+
+    .qr-group {
+      display: flex;
+      justify-content: space-around;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .qr-box {
+      text-align: center;
+      flex: 1;
+    }
+
+    .qr-box p {
+      font-size: 0.85rem;
+      color: #c084fc;
+      margin-bottom: 6px;
+    }
+
+    .qr-box img {
+      width: 100%;
+      max-width: 140px;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      border: 2px solid rgba(236, 72, 153, 0.5);
+      background: #fff;
+      padding: 4px;
+    }
+
+    /* 问卷与小游戏链接列表 */
+    .links-list {
+      list-style: none;
+      width: 100%;
+    }
+
+    .links-list li {
+      margin-bottom: 12px;
+    }
+
+    .links-list a {
+      display: block;
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 12px;
+      color: #f5d0fe;
+      text-decoration: none;
+      font-size: 0.98rem;
+      font-weight: 500;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .links-list a:hover, .links-list a:active {
+      background: rgba(236, 72, 153, 0.3);
+      border-color: #ec4899;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
+    }
+  </style>
 </head>
 <body>
+
+  <div class="bg-glow"></div>
+
   <div class="container">
-    <h1>欢迎来到小妮的主页</h1>
-    <p class="slogan">温柔黑心 · 身体支配 · 自动榨金</p>
-    <p class="id">@xiaoni_page</p>
+    <!-- 手写艺术字标题 -->
+    <div class="brand-title">xiaoni</div>
 
-    <section>
+    <!-- 圆形头像区域（已留出图片路径，可将 avatar.jpg 替换为你的真实图片文件名或图片网址） -->
+    <div class="avatar-wrapper">
+      <div class="avatar-border">
+        <img class="avatar-img" src="avatar.jpg" alt="小妮头像" onerror="this.src='https://via.placeholder.com/130/2a1538/e9d5ff?text=xiaoni'">
+      </div>
+    </div>
+
+    <!-- 主欢迎词 -->
+    <div class="welcome-title">
+      <span>欢迎来到小妮的主</span>
+      <span>页</span>
+    </div>
+
+    <!-- 个人介绍文字 -->
+    <div class="slogan">你生下来就是被榨干的命</div>
+    <div class="handle">@shorter_ja39843</div>
+    <div class="tags">温柔黑心 · 身体支配 · 自动榨金</div>
+
+    <!-- 下滑指示 -->
+    <div class="scroll-arrow" onclick="window.scrollTo({top: 500, behavior: 'smooth'})">↓</div>
+
+    <!-- 关于我 -->
+    <div class="section-card">
       <h2>关于我</h2>
-      <p>已经毕业，喜欢有趣的事情和有趣的人。</p>
-      <p>专注于制作问卷、小游戏，致力于自动榨金。</p>
-      <p class="hashtags">#黑心 #贡奴 #ATM奴 #上贡 #压榨</p>
-    </section>
+      <p>小妮 @shorter_ja39843</p>
+      <p style="margin-top: 6px; color: #f0abfc; font-weight: bold;">温柔且黑心</p>
+      <p style="margin-top: 6px;">已经毕业，喜欢有趣的事情和有趣的人。<br>专注于制作问卷、小游戏，致力于自动榨金。</p>
+      <p style="margin-top: 10px; font-size: 0.85rem; color: #f472b6;">#黑心 #贡奴 #ATM奴 #上贡 #压榨</p>
+    </div>
 
-    <section>
+    <!-- 上贡须知 -->
+    <div class="section-card">
       <h2>上贡须知</h2>
-      <p>想被清空？扫码上贡</p>
-      <div class="qr-codes">
-        <div>
+      <p style="text-align: center; color: #f472b6; font-weight: bold;">想被清空？扫码上贡</p>
+      <p style="margin-top: 8px;">口令私信或者扫描下方二维码，即可向小妮上贡。</p>
+      <div class="qr-group">
+        <div class="qr-box">
           <p>支付宝</p>
-          <img src="alipay.jpg" alt="支付宝收款码" width="180">
+          <!-- 支付宝二维码路径 -->
+          <img src="alipay.jpg" alt="支付宝收款码" onerror="this.src='https://via.placeholder.com/140/ffffff/000000?text=Alipay'">
         </div>
-        <div>
+        <div class="qr-box">
           <p>微信支付</p>
-          <img src="wechat.jpg" alt="微信收款码" width="180">
+          <!-- 微信二维码路径 -->
+          <img src="wechat.jpg" alt="微信收款码" onerror="this.src='https://via.placeholder.com/140/ffffff/000000?text=WeChat'">
         </div>
       </div>
-    </section>
+    </div>
 
-    <section>
+    <!-- 自制小游戏、问卷 -->
+    <div class="section-card">
       <h2>自制小游戏、问卷</h2>
-      <p>点进去，就是自愿被榨的开始</p>
-      
-      <ul class="links">
-        <li><a href="game.html" target="_blank">小妮的上贡射精小游戏</a></li>
-        <li><a href="game.html" target="_blank">小妮的贡奴边缘问卷</a></li>
-        <li><a href="game.html" target="_blank">小妮的模拟取金银行问卷小游戏</a></li>
-        <li><a href="game.html" target="_blank">小妮的模拟上贡射精问卷</a></li>
-        <li><a href="game.html" target="_blank">小妮的模拟上贡射精问卷2.0</a></li>
-        <li><a href="game.html" target="_blank">小妮的胁迫小游戏</a></li>
-        <li><a href="game.html" target="_blank">小妮的atm养成问卷</a></li>
+      <p style="text-align: center; color: #d8b4fe; margin-bottom: 15px;">点进去，就是自愿被榨的开始</p>
+      <ul class="links-list">
+        <li><a href="game.html">小妮的上贡射精小游戏</a></li>
+        <li><a href="edge.html">小妮的贡奴边缘问卷</a></li>
+        <li><a href="bank.html">小妮的模拟取金银行问卷小游戏</a></li>
+        <li><a href="wj1.html">小妮的模拟上贡射精问卷</a></li>
+        <li><a href="wj2.html">小妮的模拟上贡射精问卷2.0</a></li>
+        <li><a href="coerce.html">小妮的胁迫小游戏</a></li>
+        <li><a href="atm.html">小妮的atm养成问卷</a></li>
       </ul>
-    </section>
+    </div>
   </div>
+
+  <script>
+    // 动态生成黑粉色爱心与黑心飘落特效
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart-particle');
+      
+      const hearts = ['🖤', '💖', '💗', '💕', '💜'];
+      heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+      
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (Math.random() * 12 + 12) + 'px';
+      
+      const duration = Math.random() * 3 + 4;
+      heart.style.animationDuration = duration + 's';
+      
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, duration * 1000);
+    }
+
+    setInterval(createHeart, 350);
+  </script>
 </body>
 </html>
